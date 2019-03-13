@@ -1,0 +1,62 @@
+Sub Stockdata()
+
+'Declare Variables
+
+Dim ticker As String
+Dim vol As Double
+Dim LastRow As Long
+Dim StartingPrice As Double
+Dim ClosingPrice As Double
+Dim ws As Worksheet
+Dim Summary_Table_Row As Integer
+
+
+Dim x As Integer
+Dim ws_num As Integer
+
+Dim starting_ws As Worksheet
+Set starting_ws = ActiveSheet 'remember which worksheet is active in the beginning
+ws_num = ThisWorkbook.Worksheets.Count
+
+For x = 1 To ws_num
+    ThisWorkbook.Worksheets(x).Activate
+  
+     
+     
+     Range("I" & 1).Value = "Ticker Value"
+     Range("J" & 1).Value = "Total Stock Volume"
+     
+  
+  
+    LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    Summary_Table_Row = 2
+  
+    For i = 2 To LastRow
+    
+    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+    vol = Cells(i, 7).Value + vol
+    Range("J" & Summary_Table_Row).Value = vol
+    Range("I" & Summary_Table_Row).Value = Cells(i, 1).Value
+    Summary_Table_Row = Summary_Table_Row + 1
+
+    vol = 0
+
+    Else
+    
+    vol = Cells(i, 7).Value + vol
+   
+    
+    End If
+    
+    
+    Next i
+
+Next x
+
+starting_ws.Activate 'activate the worksheet that was originally active
+
+vol = 0
+
+
+End Sub
